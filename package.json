@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/xinchishenwanghappy/node-#readme",
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "install": "^0.12.1",
+    "mongodb": "^3.1.4",
+    "npm": "^6.4.0"
   }
 }
