@@ -11,8 +11,13 @@ const accountRouter = require(path.join(__dirname, '../controls/handlepage.js'))
 router.get('/login', accountRouter.getLogin);
 router.get('/register', accountRouter.getRegister);
 
+//获取图片验证码
+router.get('/vcode',accountRouter.vcodeImage);
+
 //处理注册请求
 router.post('/register',accountRouter.register);
+//处理登入的请求
+router.post('/login', accountRouter.login);
 
 //暴露出去
 module.exports = router;

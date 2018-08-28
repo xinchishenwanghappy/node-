@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,9 @@
   "homepage": "https://github.com/xinchishenwanghappy/node-#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "captchapng": "0.0.1",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "install": "^0.12.1",
     "mongodb": "^3.1.4",
     "npm": "^6.4.0"

@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
     <title>登录页面</title>
 </head>
 <body>
@@ -57,6 +58,41 @@
 <script>
     function register(){
         window.location.href = "/account/register"
+    }
+
+    //点击图片再次获取图片
+    //img的src需要传递参数-------------特别注意的点
+    $('#vcodeimgId').click(function() {
+        $(this).attr('src', `/account/vcode?id=${Math.random()}`);
+    })
+
+    //登入
+    function login() {
+        var username = $("#usernameId").val()
+        var password = md5($("#passwordId").val()+"@!**&&")
+        var vcode = $("#vcodeId").val();
+
+        //发请求
+        $.post({
+            url: '/account/login',
+            dataType: 'json',
+            data: {
+                username,
+                password,
+                vcode
+            },
+            success: function(res) {
+                if(res.status != 0) {
+
+                    //重新生成验证码
+                    // $('#vcodeimgId').click();
+                    alert(res.message);
+                }else {
+                    //跳转页面------学生列表页面
+                    location.href = '/studentmanager/list';
+                }
+            }
+        })
     }
 </script>
 </html>
