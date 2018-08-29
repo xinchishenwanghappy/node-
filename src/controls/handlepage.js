@@ -2,53 +2,35 @@ const path = require('path');
 
 const captchapng = require('captchapng');  //生成验证码图片
 
-
-const MongoClient = require('mongodb').MongoClient;
-//连接数据库
-const url = 'mongodb://localhost:27017';
-
-//注册请求
+//导入查询的函数
+const registerReq = require(path.join(__dirname, '../tools/mogodb.js'));
 exports.register = (req, res) => {
+
     //注册成功的状态
     const success = { status: 0, message: '注册成功' };
+    console.log(req.body.username);
+    registerReq.findOne('accountInfo', { username: req.body.username }, (err, result) => {
+        console.log(result);
+        if (result) {
+            //用户名存在
+            //更改状态
+            success.status = 1;
+            success.message = '用户名已经存在';
 
-    //注册---首先需要到数据库查询用户名有没有----不存在就插入-----存在就不插入,并且提示用户
-    MongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
-        // if (err) throw err;
-        const dbo = db.db("xinchishenwang");
-
-        dbo.collection("studentInfo").findOne({ username: req.body.username }, (err, result) => {
-            // if (err) throw err;
-            if (result) {
-                //用户名存在
-                db.close();  //关闭连接
-
-                //更改状态
-                success.status = 1;
-                success.message = '用户名已经存在';
-
+            res.json(success);
+        } else {
+            registerReq.insertOne('accountInfo', req.body, (err, result) => {
+                if (result == null) {
+                    //插入失败
+                    //更改状态
+                    success.status = 1;
+                    success.message = '注册失败';
+                }
                 res.json(success);
-            } else {
-                //用户名不存在
-                //插入数据
-                dbo.collection("studentInfo").insertOne(req.body, (err, resOne) => {
-                    db.close();  //关闭连接
-
-                    if (resOne == null) {
-                        //插入失败
-                        //更改状态
-                        success.status = 1;
-                        success.message = '注册失败';
-                    }
-
-                    res.json(success);
-                })
-            }
-
-        })
-    });
+            })
+        }
+    })
 }
-
 
 //登入请求
 //生成验证码
@@ -75,8 +57,8 @@ exports.login = (req, res) => {
     //登入成功的状态
     const success = { status: 0, message: '登入成功' };
     // console.log(req);
-    console.log(req.body);
-    console.log(req.session);
+    // console.log(req.body);
+    // console.log(req.session);
     if (req.body.vcode != req.session.vcode) {
         success.status = 1;
         success.message = '验证码不正确';
@@ -87,19 +69,15 @@ exports.login = (req, res) => {
 
     //验证码正确
     //根据数据库判断
-    MongoClient.connect(url, { useNewUrlParser: true }, function (err, db) {
 
-        const dbo = db.db("xinchishenwang");
-        dbo.collection("studentInfo").findOne({ username: req.body.username, password: req.body.password, vcode: req.body.vcode }, (err, result) => {
-            // if (err) throw err;
-            db.close();
-            if (result == null) {
-                success.status = 2;
-                success.message = "用户名或密码错误";
-            }
-            res.json(success);
-        })
+    registerReq.findOne('accountInfo', { username: req.body.username, password: req.body.password }, (err, result) => {
+        if (result == null) {
+            success.status = 2;
+            success.message = "用户名或密码错误";
+        }
+        res.json(success);
     })
+
 }
 
 //返回登入页面给浏览器

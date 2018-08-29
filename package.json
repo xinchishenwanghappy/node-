@@ -25,6 +25,8 @@
     "express-session": "^1.15.6",
     "install": "^0.12.1",
     "mongodb": "^3.1.4",
-    "npm": "^6.4.0"
+    "npm": "^6.4.0",
+    "xtemplate": "^4.6.1",
+    "xtpl": "^3.4.0"
   }
 }

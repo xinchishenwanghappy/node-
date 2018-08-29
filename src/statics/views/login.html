@@ -85,11 +85,11 @@
                 if(res.status != 0) {
 
                     //重新生成验证码
-                    // $('#vcodeimgId').click();
+                    $('#vcodeimgId').click();
                     alert(res.message);
                 }else {
                     //跳转页面------学生列表页面
-                    location.href = '/studentmanager/list';
+                    location.href = '/studentmanager/lists';
                 }
             }
         })
