@@ -32,7 +32,7 @@
                 <td>
                     <a href="#" class="btn btn-success">编辑</a> |
 
-                    <input type="button" class="btn btn-danger" value="删除">
+                    <input type="button" class="btn btn-danger deleteOne" value="删除" data-id="{{this._id}}" onclick="deleteOne()">
                 </td>
                 {{/each}}
                 <!-- </tr>
@@ -82,6 +82,10 @@
                 location.href = `/studentmanager/lists?keyword=${$('#studentNameId').val()}`;
             }
         })
+    }
+
+    function deleteOne() {
+        location.href = `/studentmanager/lists?keyId=${$('.deleteOne').data('id')}`;
     }
 </script>
 {{/block}}

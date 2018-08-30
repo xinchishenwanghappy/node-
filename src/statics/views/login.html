@@ -56,6 +56,7 @@
     </div>
 </body>
 <script>
+   
     function register(){
         window.location.href = "/account/register"
     }
@@ -68,8 +69,9 @@
 
     //登入
     function login() {
-        var username = $("#usernameId").val()
-        var password = md5($("#passwordId").val()+"@!**&&")
+        sessionStorage.setItem('word', $("#usernameId").val());
+        var username = $("#usernameId").val();
+        var password = md5($("#passwordId").val()+"@!**&&");
         var vcode = $("#vcodeId").val();
 
         //发请求
