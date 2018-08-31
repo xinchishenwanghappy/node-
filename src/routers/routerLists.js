@@ -19,6 +19,8 @@ router.post('/add',stulists.addStu);
 //获取编辑页面
 router.get('/edit/:studentId', stulists.editStu);
 
+//编辑页面的修改
+router.post('/edit/:studentId', stulists.changeEditStu);
 
 //暴露出去
 module.exports = router;

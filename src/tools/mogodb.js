@@ -77,9 +77,21 @@ exports.insertOne = (collectionName, params, callback) => {
 
 //删除一条数据
 exports.deleteOne = (collectionName, params, callback) => {
-    
+
     connectDB(collectionName, (err, collection, db) => {
         collection.deleteOne(params, (err, result) => {
+            db.close();
+            callback(err, result);
+        })
+    })
+}
+
+
+//更新一条数据
+exports.updateOne = (collectionName,condation, params, callback) => {
+
+    connectDB(collectionName, (err, collection, db) => {
+        collection.updateOne(condation,{ $set: params }, (err, result) => {
             db.close();
             callback(err, result);
         })

@@ -67,13 +67,11 @@ exports.addStu = (req,res) => {
 
 
 //学生编辑页面
-
 exports.editStu = (req,res) => {
     //根据studentId查询
     console.log(req.params.studentId);
     studentLis.findOne('studentInfo', {_id:ObjectId(req.params.studentId)}, (err,result) => {
        
-
         // var data = {
         //     list: result
         // }
@@ -81,7 +79,20 @@ exports.editStu = (req,res) => {
         var html = template(path.join(__dirname, '../statics/views/edit.html'),result);  
         res.send(html);
     })
-
     
+}
+
+//根据studentId修改学生信息
+exports.changeEditStu = (req,res) => {
+    // console.log(req.params.studentId);
+    const id = req.params.studentId.split('"')[1];
+    // console.log(id);
+    studentLis.updateOne('studentInfo',{_id:ObjectId(id)},req.body,(err,result) => {
+        if(result) {
+            res.send(`<script>window.location.href="/studentmanager/lists"</script>`)
+        }else {
+            res.send(`<script>alert('修改失败')</script>`)
+        }
+    })
 }
 
