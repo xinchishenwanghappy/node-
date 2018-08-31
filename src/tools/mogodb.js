@@ -77,16 +77,7 @@ exports.insertOne = (collectionName, params, callback) => {
 
 //删除一条数据
 exports.deleteOne = (collectionName, params, callback) => {
-    // MongoClient.connect(url, { useNewUrlParser: true }, (err, db) => {
-
-    //     const dbo = db.db(dbName);
-
-    //     dbo.collection(collectionName).deleteOne(params, (err, result) => {
-    //         db.close();
-    //         callback(err, result);
-    //     })
-    // })
-
+    
     connectDB(collectionName, (err, collection, db) => {
         collection.deleteOne(params, (err, result) => {
             db.close();

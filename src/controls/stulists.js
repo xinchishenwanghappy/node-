@@ -29,7 +29,7 @@ exports.stulists = (req, res, next) => {
     })
 
     const keyId = req.query.keyId;
-    console.log(keyId);
+    // console.log(keyId);
     if (keyId) {
         const whereStr = { _id: ObjectId(keyId) }
         studentLis.deleteOne('studentInfo', whereStr, (err, result) => {
@@ -64,3 +64,24 @@ exports.addStu = (req,res) => {
         }
     })
 }
+
+
+//学生编辑页面
+
+exports.editStu = (req,res) => {
+    //根据studentId查询
+    console.log(req.params.studentId);
+    studentLis.findOne('studentInfo', {_id:ObjectId(req.params.studentId)}, (err,result) => {
+       
+
+        // var data = {
+        //     list: result
+        // }
+        // console.log(data);
+        var html = template(path.join(__dirname, '../statics/views/edit.html'),result);  
+        res.send(html);
+    })
+
+    
+}
+
