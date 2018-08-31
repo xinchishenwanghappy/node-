@@ -7,7 +7,14 @@ const router = express.Router();
 //导入
 const stulists = require(path.join(__dirname,'../controls/stulists.js'));
 
+//获取学生列表页面
 router.get('/lists',stulists.stulists);
+
+//获取新增页面
+router.get('/add', stulists.getAddStu);
+
+//完成新增
+router.post('/add',stulists.addStu);
 
 //暴露出去
 module.exports = router;

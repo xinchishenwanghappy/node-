@@ -8,9 +8,9 @@ exports.register = (req, res) => {
 
     //注册成功的状态
     const success = { status: 0, message: '注册成功' };
-    console.log(req.body.username);
+    // console.log(req.body.username);
     registerReq.findOne('accountInfo', { username: req.body.username }, (err, result) => {
-        console.log(result);
+        // console.log(result);
         if (result) {
             //用户名存在
             //更改状态

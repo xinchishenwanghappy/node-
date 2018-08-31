@@ -32,7 +32,7 @@
                 <td>
                     <a href="#" class="btn btn-success">编辑</a> |
 
-                    <input type="button" class="btn btn-danger deleteOne" value="删除" data-id="{{this._id}}" onclick="deleteOne()">
+                    <input type="button" class="btn btn-danger deleteOne" value="删除" data-id="{{this._id}}" >
                 </td>
                 {{/each}}
                 <!-- </tr>
@@ -84,8 +84,11 @@
         })
     }
 
-    function deleteOne() {
-        location.href = `/studentmanager/lists?keyId=${$('.deleteOne').data('id')}`;
-    }
+    $('table').on('click', '.deleteOne',function() {
+        location.href = `/studentmanager/lists?keyId=${$(this).data('id')}`;
+    })
+    // function deleteOne() {
+    //     location.href = `/studentmanager/lists?keyId=${$('.deleteOne').data('id')}`;
+    // }
 </script>
 {{/block}}
