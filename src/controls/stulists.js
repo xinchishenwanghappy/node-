@@ -2,27 +2,25 @@ const path = require('path');
 const xtpl = require('xtpl');
 var template = require('art-template');
 
-
 var ObjectId = require('mongodb').ObjectId;
 
 //导入
 const studentLis = require(path.join(__dirname, '../tools/mogodb.js'));
 
-
 //暴露
 //学生列表页面
-exports.stulists = (req, res, next) => {
+exports.stulists = (req, res) => {
     const keyword = req.query.keyword || '';
-   
+
     studentLis.findList('studentInfo', { name: { $regex: keyword } }, (err, result) => {
         xtpl.renderFile(path.join(__dirname, '../statics/views/lists.html'), {
             student: result,
             keyword,
+            logindName: req.session.loginName
             
         }, function (error, content) {
             res.send(content);
         });
-        // return next();
         // var data = {list: result};
         // var html = template(path.join(__dirname, '../statics/views/lists.html'),data));  
         // res.send(html)
@@ -44,10 +42,11 @@ exports.stulists = (req, res, next) => {
 
 //学生新增页面
 exports.getAddStu = (req, res) => {
-
+    // console.log(req.session.logindName);
     //假设返回数据
     var data = {
-        name:1
+        name:1,
+        logindName: req.session.loginName
     }
     var html = template(path.join(__dirname, '../statics/views/add.html'),data);  
     res.send(html)
@@ -69,14 +68,14 @@ exports.addStu = (req,res) => {
 //学生编辑页面
 exports.editStu = (req,res) => {
     //根据studentId查询
-    console.log(req.params.studentId);
     studentLis.findOne('studentInfo', {_id:ObjectId(req.params.studentId)}, (err,result) => {
        
-        // var data = {
-        //     list: result
-        // }
-        // console.log(data);
-        var html = template(path.join(__dirname, '../statics/views/edit.html'),result);  
+        var data = {
+            list: result,
+            logindName: req.session.loginName
+        }
+        console.log(data);
+        var html = template(path.join(__dirname, '../statics/views/edit.html'),data);  
         res.send(html);
     })
     
@@ -95,4 +94,5 @@ exports.changeEditStu = (req,res) => {
         }
     })
 }
+
 

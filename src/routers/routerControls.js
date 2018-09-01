@@ -16,8 +16,12 @@ router.get('/vcode',accountRouter.vcodeImage);
 
 //处理注册请求
 router.post('/register',accountRouter.register);
+
 //处理登入的请求
 router.post('/login', accountRouter.login);
+
+//处理登出的情求
+router.get('/logout', accountRouter.logout);
 
 //暴露出去
 module.exports = router;

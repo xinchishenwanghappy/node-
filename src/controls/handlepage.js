@@ -71,10 +71,16 @@ exports.login = (req, res) => {
     //根据数据库判断
 
     registerReq.findOne('accountInfo', { username: req.body.username, password: req.body.password }, (err, result) => {
+        
         if (result == null) {
             success.status = 2;
             success.message = "用户名或密码错误";
+        } else {
+            //console.log(req.body.username)
+            req.session.loginName = req.body.username;//用于判断是否登入
+            
         }
+        // console.log(req.session.loginName);
         res.json(success);
     })
 
@@ -91,6 +97,13 @@ const getLogin = (req, res) => {
 const getRegister = (req, res) => {
     res.sendFile(path.join(__dirname, '../statics/views/resgister.html'));
 }
+
+//登出处理
+exports.logout = (req,res) => {
+    //清空loginName
+    req.session.loginName = null;
+    res.send('<script>location.href="/account/login"</script>');
+} 
 
 // 暴露出去
 exports.getLogin = getLogin;
